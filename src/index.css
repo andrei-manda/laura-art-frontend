@@ -1,0 +1,139 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f4f4f1;
+  --color-ink: #16171b;
+  --color-body: #3c3e38;
+  --color-muted: #8a8c88;
+  --color-card: #f7f7f4;
+  --color-ph: #e7e8e3;
+  --color-ph-warm: #e7e3d8;
+  --color-ph-cool: #e4e6ec;
+  --color-gold: #b08828;
+  --color-teal: #5e988e;
+  --color-rose: #c98a95;
+  --color-green: #5c9a5e;
+  --color-purple: #7a4fc0;
+  --color-cobalt: #1b45b0;
+  --font-grotesk: 'Space Grotesk', sans-serif;
+  --font-chakra: 'Chakra Petch', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-grotesk);
+  -webkit-font-smoothing: antialiased;
+  /* clip, not hidden: a stray wide child never scrolls the page sideways on a
+     phone, and unlike overflow:hidden it does not break the sticky header. */
+  overflow-x: clip;
+}
+
+/* Set by the header while the mobile menu is open and by the lightbox. */
+body.no-scroll {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* Many controls set `outline-none` and draw their own focus ring. :where() keeps
+   this at zero specificity so those utilities still win where they apply. */
+:where(a, button, [role='button'], input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.container-site {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 768px) {
+  .container-site {
+    padding-inline: 48px;
+  }
+}
+
+/* --- motion ------------------------------------------------------------- */
+
+/* Route transition. The wrapper is keyed by pathname, so it remounts and the
+   animation replays on every navigation. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.page-enter {
+  animation: page-in 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise-in {
+  animation: rise-in 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Skeleton shimmer. The background tone comes from a Tailwind class on the
+   element so each page can match its own placeholder colour. */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .rise-in,
+  .shimmer::after {
+    animation: none;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+.eg-carousel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(94, 152, 142, 0.5) rgba(20, 22, 28, 0.06);
+}
+.eg-carousel::-webkit-scrollbar { height: 6px; }
+.eg-carousel::-webkit-scrollbar-track { background: rgba(20, 22, 28, 0.06); }
+.eg-carousel::-webkit-scrollbar-thumb { background: rgba(94, 152, 142, 0.5); border-radius: 3px; }
+
+.dc-carousel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(92, 154, 94, .5) rgba(20, 22, 28, 0.06);
+}
+.dc-carousel::-webkit-scrollbar { height: 6px; }
+.dc-carousel::-webkit-scrollbar-track { background: rgba(20, 22, 28, 0.06); }
+.dc-carousel::-webkit-scrollbar-thumb { background: rgba(92, 154, 94, .5); border-radius: 3px; }
